@@ -60,8 +60,6 @@ void insert_node_from_end(Node<int>*& head, int data)
     Node<int>* prevNode = nullptr;
     auto currentNode = head;
 
-    cout << std::format("Current node beg {}\n", currentNode->getData());
-    cout << std::format("New node beg {}\n", new_node->getData());
     while (currentNode->getData() < new_node->getData() && currentNode != nullptr) {
         prevNode = currentNode;
         currentNode = currentNode->getNextNode();
