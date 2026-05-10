@@ -49,3 +49,8 @@ compile_commands.json
 # python
 
 __pycache__
+
+# rust 
+
+target
+
