@@ -53,6 +53,59 @@ void insert_node_from_beginning(Node<int>*& head, int data)
     return;
 }
 
+void insert_node_from_end(Node<int>*& head, int data)
+{
+    Node<int>* new_node = new Node{data};
+
+    Node<int>* prevNode = nullptr;
+    auto currentNode = head;
+
+    cout << std::format("Current node beg {}\n", currentNode->getData());
+    cout << std::format("New node beg {}\n", new_node->getData());
+    while (currentNode->getData() < new_node->getData() && currentNode != nullptr) {
+        prevNode = currentNode;
+        currentNode = currentNode->getNextNode();
+
+        if (currentNode == nullptr) {
+            break;
+        }
+    }
+
+    prevNode->setNextNode(new_node);
+
+    prevNode = nullptr;
+    new_node = nullptr;
+    currentNode = nullptr;
+}
+
+void insert_node_in_between(Node<int>*& head, int data)
+{
+    Node<int>* new_node = new Node<int>(data);
+
+    Node<int>* prev_node = nullptr;
+    auto current_node = head;
+
+    while (current_node->getData() < new_node->getData() && current_node != nullptr) {
+        prev_node = current_node;
+        current_node = current_node->getNextNode();
+
+        if (current_node == nullptr) {
+            break;
+        }
+    }
+
+    // from here, currentNode is the node that is bigger than the new node
+    // and prevNode is smaller than the new node
+
+    // insert the new node between prevNode and currentNode
+    prev_node->setNextNode(new_node);
+    new_node->setNextNode(current_node);
+
+    prev_node = nullptr;
+    current_node = nullptr;
+    new_node = nullptr;
+}
+
 int main()
 {
     // 1. Create head, a ptr to the first node
@@ -77,5 +130,14 @@ int main()
     cout << "Inserting nodes from beginning\n";
     insert_node_from_beginning(head, -1);
     traversing_list(head);  // -1, 0, 1
+
+    cout << "Inserting nodes from end\n";
+    insert_node_from_end(head, 3);
+    traversing_list(head);  // -1, 0, 1, 3
+
+    cout << "Inserting nodes in between\n";
+    insert_node_in_between(head, 2);
+    traversing_list(head);  // -1, 0, 1, 2, 3
+
     return 0;
 }
