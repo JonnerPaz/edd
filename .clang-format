@@ -1,0 +1,45 @@
+---
+# Estándar base de Google
+BasedOnStyle: Google
+
+# Tamaño de indentación (4 espacios es el estándar más legible para educación)
+IndentWidth: 4
+ColumnLimit: 100
+
+# Control de llaves
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: true
+  AfterControlStatement: false
+  AfterEnum: false
+  AfterFunction: true
+  AfterNamespace: false
+  AfterStruct: false  
+  BeforeElse: false
+
+# Alineación de punteros (Producto* productos en lugar de Producto *productos)
+PointerAlignment: Left
+
+# Control de visibilidad (public, private) 
+AccessModifierOffset: -1
+
+# Ajustes para constructores
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ConstructorInitializerIndentWidth: 4
+
+# Espaciado y orden
+SpacesBeforeTrailingComments: 2
+SeparateDefinitionBlocks: Always
+
+# C++ 20 o superior para compatibilidad con tus structs
+Standard: c++20
+
+# Ordenar los #include alfabéticamente
+SortIncludes: true
+
+# añadir espacios después del cast (float) variable
+SpaceAfterCStyleCast: true
+
+# Permitir funciones cortas en una sola línea (ej: getters sencillos)
+AllowShortFunctionsOnASingleLine: Inline
+---
