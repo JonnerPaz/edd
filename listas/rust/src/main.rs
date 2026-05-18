@@ -83,6 +83,37 @@ where
     *current_link = Some(new_node);
 }
 
+fn delete_node<T>(head: &mut Option<Box<Node<T>>>, data: T)
+where
+    T: Debug + PartialOrd,
+{
+    let mut current_link = head;
+
+    // iterates until current_link points to node to delete
+    // or until current_link points to None
+    loop {
+        let should_delete = match current_link {
+            Some(node) => node.data == data,
+            None => false,
+        };
+
+        if should_delete {
+            break;
+        } else if current_link.is_none() {
+            return;
+        }
+
+        current_link = &mut current_link.as_mut().unwrap().next;
+    }
+
+    match current_link {
+        Some(node) => {
+            *current_link = node.next.take();
+        }
+        None => {}
+    }
+}
+
 fn main() {
     // Initial nodes
     let mut first_node = Box::new(Node::new(0));
@@ -91,18 +122,28 @@ fn main() {
     first_node.set_next_node(Some(second_node)); // now second_node from here is dead
 
     // Real list
-    let mut list_head = Some(first_node);
-    traversing_list(&list_head); // 0, 1
+    let mut list = Some(first_node);
+    traversing_list(&list); // 0, 1
 
     println!("Inserting nodes from beginning");
-    insert_node_from_beginning(&mut list_head, -1);
-    traversing_list(&list_head); // -1, 0, 1
+    insert_node_from_beginning(&mut list, -1);
+    traversing_list(&list); // -1, 0, 1
 
     println!("Inserting nodes from end");
-    insert_node_from_end(&mut list_head, 3);
-    traversing_list(&list_head); // -1, 0, 1, 3
+    insert_node_from_end(&mut list, 3);
+    traversing_list(&list); // -1, 0, 1, 3
 
     println!("Inserting nodes from end");
-    insert_nodes_in_between(&mut list_head, 2);
-    traversing_list(&list_head); // -1, 0, 1, 2, 3
-}
+    insert_nodes_in_between(&mut list, 2);
+    traversing_list(&list); // -1, 0, 1, 2, 3
+
+    println!("Deleting node");
+    delete_node(&mut list, -1);
+    traversing_list(&list); // 0, 1, 2, 3
+
+    delete_node(&mut list, 3);
+    traversing_list(&list); // 0, 1, 2
+
+    delete_node(&mut list, 1);
+    traversing_list(&list); // 0, 2
+} // in rust, after main func, list goes out of scope so it becomes None

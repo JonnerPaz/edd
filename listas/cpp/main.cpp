@@ -17,16 +17,6 @@ void traversing_list(Node<int>* head)
     }
 }
 
-void insert_node(Node<int>* head, int data)
-{
-    Node<int>* new_node = new Node<int>(data);
-    new_node->setNextNode(head);
-    head = new_node;
-
-    delete new_node;
-    new_node = nullptr;
-}
-
 /**
  * @param head - a pointer reference to the first node
  */
@@ -104,6 +94,49 @@ void insert_node_in_between(Node<int>*& head, int data)
     new_node = nullptr;
 }
 
+void delete_node(Node<int>*& head, int data)
+{
+    Node<int>* prev_node = nullptr;
+    Node<int>* current_node = head;
+
+    while (current_node->getNextNode() != nullptr) {
+        prev_node = current_node;
+        current_node = current_node->getNextNode();
+
+        // first node only
+        if (head->getData() == data) {
+            Node<int>* tmp = head;
+            head = head->getNextNode();
+            delete tmp;
+            break;
+        }
+
+        // middle or last node
+        if (current_node->getData() == data && head->getData() != data) {
+            Node<int>* tmp = current_node;
+            prev_node->setNextNode(current_node->getNextNode());
+            delete tmp;
+            break;
+        }
+    }
+
+    current_node = nullptr;
+    prev_node = nullptr;
+
+    return;
+}
+
+void free_list(Node<int>*& head)
+{
+    Node<int>* tmp = nullptr;
+
+    while (head != nullptr) {
+        tmp = head;
+        head = head->getNextNode();
+        delete tmp;
+    }
+}
+
 int main()
 {
     // 1. Create head, a ptr to the first node
@@ -137,5 +170,15 @@ int main()
     insert_node_in_between(head, 2);
     traversing_list(head);  // -1, 0, 1, 2, 3
 
+    // deleting
+    cout << "Deleting node from end\n";
+    delete_node(head, 2);
+    traversing_list(head);  // -1, 0, 1, 3
+
+    delete_node(head, -1);
+    traversing_list(head);  // 0, 1, 3
+
+    // kill the list
+    free_list(head);
     return 0;
 }
