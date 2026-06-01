@@ -1,5 +1,8 @@
 #pragma once
 
+/**
+ * @brief - Clase que representa un nodo de una lista simple
+ */
 template <typename T>
 class Node
 {
@@ -8,7 +11,7 @@ class Node
     Node<T>* next;
 
    public:
-    Node(T data) : data(data) {};
+    Node(T data) : data(data), next(nullptr) {};
 
     Node<T>* getNextNode() { return next == nullptr ? nullptr : next; };
 
