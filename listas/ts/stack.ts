@@ -13,7 +13,7 @@ export class Stack<T> {
     }
   }
 
-  push(value: T): void {
+  push(value: T): number {
     const node = new CustomNode(value);
 
     if (!this.first) {

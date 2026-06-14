@@ -2,7 +2,7 @@
 #include "DoubleLinkedNode.hpp"
 
 template <typename T>
-Node<T>* reverseDoublyLinkedList(Node<T>* head)
+Node<T>* reverseList(Node<T>* head)
 {
     if (head == nullptr || head->getNextNode() == nullptr) {
         return head;  // Lista vacía o de un solo elemento
