@@ -23,6 +23,16 @@ class Queue
         }
     }
 
+    ~Queue()
+    {
+        Node<T>* current = this->first;
+        while (current != nullptr) {
+            Node<T>* next = current->getNextNode();
+            delete current;
+            current = next;
+        }
+    }
+
     void push(T data)
     {
         Node<T>* newNode = new Node<T>(data);

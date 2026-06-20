@@ -9,31 +9,28 @@
 // 5 -> prioridad minima
 
 template <typename T>
-class PriorityQueue
+class PriorityQueueWithArray
 {
    private:
     Queue<T>* queues[6];
     int priority = 5;
 
    public:
-    PriorityQueue()
+    PriorityQueueWithArray()
     {
         for (int i = 0; i < 6; i++) {
             queues[i] = new Queue<T>();
         }
     }
 
-    ~PriorityQueue()
+    ~PriorityQueueWithArray()
     {
         for (int i = 0; i < 6; i++) {
             delete queues[i];
         }
     }
 
-    // Si no se le pasa la prioridad, por defecto es la mínima prioridad
-    void push(T data) { queues[5]->push(data); }
-
-    void push(T data, int priority)
+    void push(T data, int priority = 5)
     {
         if (priority < 0 || priority > 5) {
             std::cerr << "Invalid priority level. Must be between 0 and 5." << std::endl;
@@ -55,7 +52,7 @@ class PriorityQueue
     bool isEmpty() const
     {
         for (int i = 0; i <= priority; i++) {
-            if (!queues[i]->getSize() > 0) {
+            if (queues[i]->getSize() > 0) {
                 return false;
             }
         }
