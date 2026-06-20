@@ -40,20 +40,22 @@ class Queue
 
     std::optional<T> pop()
     {
-        T value = this->first->getData();
-        if (this->first == this->last) {
-            this->first = nullptr;
-            this->last = nullptr;
+        if (this->first == nullptr) {
             return std::nullopt;
         }
 
+        T value = this->first->getData();
         Node<T>* tmp = this->first;
-        this->first->setNextNode(this->first->getNextNode());
-        this->size--;
-        this->first = this->first->getNextNode();
 
+        if (this->first == this->last) {
+            this->first = nullptr;
+            this->last = nullptr;
+        } else {
+            this->first = this->first->getNextNode();
+        }
+
+        this->size--;
         delete tmp;
-        tmp = nullptr;
         return value;
     }
 

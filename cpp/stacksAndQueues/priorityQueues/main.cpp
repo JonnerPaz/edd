@@ -34,8 +34,9 @@ int main()
     masterList->push(2, 1);  // Prioridad alta
     masterList->push(3, 2);  // Prioridad media
     masterList->push(4, 3);  // Prioridad baja
-    masterList->push(5, 4);  // Prioridad mínima
-    masterList->push(6, 5);  // Prioridad mínima (por defecto
+    masterList->push(5, 2);  // Prioridad media
+    masterList->push(6, 0);  // Prioridad máxima
+    masterList->push(7);     // Prioridad mínima (5)
     cout << "Viendo los datos: " << endl;
     loopPrioQueue(masterList);
     return 0;
