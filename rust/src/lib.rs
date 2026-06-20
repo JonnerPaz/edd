@@ -13,7 +13,7 @@ impl<T> Node<T> {
         self.next.as_ref()
     }
 
-    pub fn set_next_node(&mut self, next: Option<Box<Node<T>>>) {
+    pub fn set_next_node(&mut self, next: Option<Box<Node<T>>>) -> () {
         self.next = next;
     }
 }
