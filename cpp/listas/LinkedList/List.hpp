@@ -14,6 +14,16 @@ class List
 
     List(Node<T>* head) : head(head) {}
 
+    ~List()
+    {
+        Node<T>* current = this->head;
+        while (current != nullptr) {
+            Node<T>* next = current->getNextNode();
+            delete current;
+            current = next;
+        }
+    }
+
     Node<T>* getHead() { return this->head; }
 
     void push(T data)
@@ -39,18 +49,24 @@ class List
             return;
         }
 
+        if (this->head->getNextNode() == nullptr) {
+            delete this->head;
+            this->head = nullptr;
+            this->length--;
+            return;
+        }
+
         Node<T>* prevNode = nullptr;
         Node<T>* currentNode = this->head;
 
-        while (this->head->getNextNode() != nullptr) {
+        while (currentNode->getNextNode() != nullptr) {
             prevNode = currentNode;
-            currentNode = this->head;
+            currentNode = currentNode->getNextNode();
         }
 
         prevNode->setNextNode(nullptr);
         delete currentNode;
         this->length--;
-        currentNode = nullptr;
     }
 
     void shift()
