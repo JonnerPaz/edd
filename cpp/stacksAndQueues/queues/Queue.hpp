@@ -68,6 +68,15 @@ class Queue
         return value;
     }
 
+    std::optional<T> front() const
+    {
+        if (this->first == nullptr) {
+            return std::nullopt;
+        }
+
+        return this->first->getData();
+    }
+
     int getSize() const { return size; }
 
     void loopQueue()
