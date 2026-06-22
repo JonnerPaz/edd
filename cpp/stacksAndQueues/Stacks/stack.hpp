@@ -2,7 +2,7 @@
 #include <iostream>
 #include <optional>
 
-#include "../LinkedList/Node.hpp"
+#include "../../listas/LinkedList/List.hpp"
 
 template <typename T>
 class Stack
@@ -52,6 +52,14 @@ class Stack
         this->size--;
 
         return value;
+    }
+
+    std::optional<T> top() const
+    {
+        if (this->first == nullptr) {
+            return std::nullopt;
+        }
+        return this->first->getData();
     }
 
     int getSize() const { return size; }

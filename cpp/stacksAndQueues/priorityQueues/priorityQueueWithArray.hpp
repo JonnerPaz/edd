@@ -2,7 +2,7 @@
 #include <iostream>
 #include <optional>
 
-#include "../priorityQueues/Queue.hpp"
+#include "../queues/Queue.hpp"
 
 // crear una cola de prioridad donde los datos se procesan las siguientes categorias:
 // 0 -> prioridad maxima

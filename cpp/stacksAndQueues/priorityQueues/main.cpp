@@ -1,11 +1,11 @@
 #include <iostream>
 
-#include "../priorityQueues/priorityQueue.hpp"
+#include "../priorityQueues/priorityQueueWithArray.hpp"
 
 using namespace std;
 
 template <typename T>
-void loopPrioQueue(PriorityQueue<T>*& prioQueue)
+void loopPrioQueue(PriorityQueueWithArray<T>*& prioQueue)
 {
     while (true) {
         auto data = prioQueue->pop();
@@ -20,7 +20,7 @@ void loopPrioQueue(PriorityQueue<T>*& prioQueue)
 
 int main()
 {
-    PriorityQueue<int>* masterList = new PriorityQueue<int>();
+    PriorityQueueWithArray<int>* masterList = new PriorityQueueWithArray<int>();
     cout << "Pasando elements a masterlist (por defecto, la 5)" << endl;
     masterList->push(3);
     masterList->push(4);

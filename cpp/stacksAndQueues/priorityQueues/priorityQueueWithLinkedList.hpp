@@ -4,7 +4,7 @@
 #include <optional>
 
 #include "../../listas/LinkedList/List.hpp"
-#include "../priorityQueues/Queue.hpp"
+#include "../queues/Queue.hpp"
 
 template <typename T>
 class PriorityQueueWithLinkedList
