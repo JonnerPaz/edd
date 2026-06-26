@@ -3,6 +3,9 @@
 
 #include "../priorityQueues/priorityQueueWithArray.hpp"
 
+// Crear un algoritmo que guarde todas las tareas del "sistema operativo" y las
+// ejecute en orden, por prioridad
+
 struct Task {
     int id;
     std::string description;
