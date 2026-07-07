@@ -4,18 +4,18 @@
  * @brief - Clase que representa un nodo de una lista simple
  */
 template <typename T>
-class Node
+class BinaryNode
 {
    private:
     T data;
-    Node<T>* next;
+    BinaryNode<T>* next;
 
    public:
-    Node(T data) : data(data), next(nullptr) {};
+    BinaryNode(T data) : data(data), next(nullptr) {};
 
-    Node<T>* getNextNode() { return next == nullptr ? nullptr : next; };
+    BinaryNode<T>* getNextNode() { return next == nullptr ? nullptr : next; };
 
-    void setNextNode(Node<T>* next) { this->next = next; };
+    void setNextNode(BinaryNode<T>* next) { this->next = next; };
 
     T getData() { return data; };
 
