@@ -1,4 +1,4 @@
-use rust::Node;
+use rust::lists::node::Node;
 use std::fmt::Debug;
 
 fn traversing_list<T>(head: &Option<Box<Node<T>>>)
