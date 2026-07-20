@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <iostream>
 #include <stdexcept>
 
 #include "./NodeTree.hpp"
@@ -26,6 +27,10 @@ class AVLTree
      * @note O(1) porque la altura se almacena en el nodo.
      */
     int height(NodeTree<T>* node) const { return node == nullptr ? 0 : node->getHeight(); }
+    int height(NodeTree<T>* node) const
+    {
+        return node == nullptr ? 0 : node->getHeight();
+    }
 
     /**
      * Calcula el factor de equilibrio: altura(izquierdo) - altura(derecho).
@@ -35,6 +40,10 @@ class AVLTree
     {
         if (node == nullptr) return 0;
         return height(node->getLeftNode()) - height(node->getRightNode());
+        if (node == nullptr)
+            return 0;
+        return height(node->getLeftNode()) -
+               height(node->getRightNode());
     }
 
     /**
@@ -43,8 +52,11 @@ class AVLTree
      */
     void updateHeight(NodeTree<T>* node)
     {
-        if (node == nullptr) return;
-        node->setHeight(1 + std::max(height(node->getLeftNode()), height(node->getRightNode())));
+        if (node == nullptr)
+            return;
+        node->setHeight(
+            1 + std::max(height(node->getLeftNode()),
+                         height(node->getRightNode())));
     }
 
     /**
@@ -99,7 +111,8 @@ class AVLTree
      */
     NodeTree<T>* rebalance(NodeTree<T>* node)
     {
-        if (node == nullptr) return nullptr;
+        if (node == nullptr)
+            return nullptr;
 
         int bf = balanceFactor(node);
 
@@ -127,7 +140,8 @@ class AVLTree
      */
     NodeTree<T>* insert(NodeTree<T>* node, T data)
     {
-        if (node == nullptr) return new NodeTree<T>(data);
+        if (node == nullptr)
+            return new NodeTree<T>(data);
 
         if (data < node->getData())
             node->setLeftNode(insert(node->getLeftNode(), data));
@@ -145,8 +159,10 @@ class AVLTree
      */
     NodeTree<T>* findMin(NodeTree<T>* node) const
     {
-        if (node == nullptr) return nullptr;
-        while (node->getLeftNode() != nullptr) node = node->getLeftNode();
+        if (node == nullptr)
+            return nullptr;
+        while (node->getLeftNode() != nullptr)
+            node = node->getLeftNode();
         return node;
     }
 
@@ -155,8 +171,10 @@ class AVLTree
      */
     NodeTree<T>* findMax(NodeTree<T>* node) const
     {
-        if (node == nullptr) return nullptr;
-        while (node->getRightNode() != nullptr) node = node->getRightNode();
+        if (node == nullptr)
+            return nullptr;
+        while (node->getRightNode() != nullptr)
+            node = node->getRightNode();
         return node;
     }
 
@@ -169,14 +187,16 @@ class AVLTree
      */
     NodeTree<T>* remove(NodeTree<T>* node, T data)
     {
-        if (node == nullptr) return nullptr;
+        if (node == nullptr)
+            return nullptr;
 
         if (data < node->getData()) {
             node->setLeftNode(remove(node->getLeftNode(), data));
         } else if (data > node->getData()) {
             node->setRightNode(remove(node->getRightNode(), data));
         } else {
-            if (node->getLeftNode() == nullptr && node->getRightNode() == nullptr) {
+            if (node->getLeftNode() == nullptr &&
+                node->getRightNode() == nullptr) {
                 delete node;
                 return nullptr;
             }
@@ -195,7 +215,8 @@ class AVLTree
 
             NodeTree<T>* pred = findMax(node->getLeftNode());
             node->setData(pred->getData());
-            node->setLeftNode(remove(node->getLeftNode(), pred->getData()));
+            node->setLeftNode(
+                remove(node->getLeftNode(), pred->getData()));
         }
 
         updateHeight(node);
@@ -206,37 +227,37 @@ class AVLTree
      * Recorrido inorden: izquierdo → raíz → derecho.
      * Genera los valores en orden ascendente.
      */
-    template <typename Visitor>
-    void inorder(NodeTree<T>* node, Visitor visit) const
+    void inorder(NodeTree<T>* node) const
     {
-        if (node == nullptr) return;
-        inorder(node->getLeftNode(), visit);
-        visit(node->getData());
-        inorder(node->getRightNode(), visit);
+        if (node == nullptr)
+            return;
+        inorder(node->getLeftNode());
+        std::cout << node->getData() << " ";
+        inorder(node->getRightNode());
     }
 
     /**
      * Recorrido preorden: raíz → izquierdo → derecho.
      */
-    template <typename Visitor>
-    void preorder(NodeTree<T>* node, Visitor visit) const
+    void preorder(NodeTree<T>* node) const
     {
-        if (node == nullptr) return;
-        visit(node->getData());
-        preorder(node->getLeftNode(), visit);
-        preorder(node->getRightNode(), visit);
+        if (node == nullptr)
+            return;
+        std::cout << node->getData() << " ";
+        preorder(node->getLeftNode());
+        preorder(node->getRightNode());
     }
 
     /**
      * Recorrido postorden: izquierdo → derecho → raíz.
      */
-    template <typename Visitor>
-    void postorder(NodeTree<T>* node, Visitor visit) const
+    void postorder(NodeTree<T>* node) const
     {
-        if (node == nullptr) return;
-        postorder(node->getLeftNode(), visit);
-        postorder(node->getRightNode(), visit);
-        visit(node->getData());
+        if (node == nullptr)
+            return;
+        postorder(node->getLeftNode());
+        postorder(node->getRightNode());
+        std::cout << node->getData() << " ";
     }
 
     /**
@@ -244,8 +265,10 @@ class AVLTree
      */
     int countNodes(NodeTree<T>* node) const
     {
-        if (node == nullptr) return 0;
-        return 1 + countNodes(node->getLeftNode()) + countNodes(node->getRightNode());
+        if (node == nullptr)
+            return 0;
+        return 1 + countNodes(node->getLeftNode()) +
+               countNodes(node->getRightNode());
     }
 
     /**
@@ -253,7 +276,8 @@ class AVLTree
      */
     void destroy(NodeTree<T>* node)
     {
-        if (node == nullptr) return;
+        if (node == nullptr)
+            return;
         destroy(node->getLeftNode());
         destroy(node->getRightNode());
         delete node;
@@ -264,7 +288,8 @@ class AVLTree
      */
     NodeTree<T>* copy(NodeTree<T>* node) const
     {
-        if (node == nullptr) return nullptr;
+        if (node == nullptr)
+            return nullptr;
         NodeTree<T>* newNode = new NodeTree<T>(node->getData());
         newNode->setLeftNode(copy(node->getLeftNode()));
         newNode->setRightNode(copy(node->getRightNode()));
@@ -277,10 +302,13 @@ class AVLTree
      */
     bool isBalanced(NodeTree<T>* node) const
     {
-        if (node == nullptr) return true;
+        if (node == nullptr)
+            return true;
         int bf = balanceFactor(node);
-        if (bf < -1 || bf > 1) return false;
-        return isBalanced(node->getLeftNode()) && isBalanced(node->getRightNode());
+        if (bf < -1 || bf > 1)
+            return false;
+        return isBalanced(node->getLeftNode()) &&
+               isBalanced(node->getRightNode());
     }
 
    public:
@@ -296,6 +324,15 @@ class AVLTree
      * @note Si el valor ya existe, no hace nada.
      *       Complejidad: O(log n).
      */
+    AVLTree& operator=(const AVLTree& other)
+    {
+        if (this != &other) {
+            destroy(root);
+            root = copy(other.root);
+        }
+        return *this;
+    }
+
     void insert(T data) { root = insert(root, data); }
 
     /**
@@ -316,7 +353,8 @@ class AVLTree
     {
         NodeTree<T>* current = root;
         while (current != nullptr) {
-            if (data == current->getData()) return true;
+            if (data == current->getData())
+                return true;
             if (data < current->getData())
                 current = current->getLeftNode();
             else
@@ -332,7 +370,8 @@ class AVLTree
      */
     T findMin() const
     {
-        if (root == nullptr) throw std::runtime_error("findMin: tree is empty");
+        if (root == nullptr)
+            throw std::runtime_error("findMin: tree is empty");
         return findMin(root)->getData();
     }
 
@@ -343,7 +382,8 @@ class AVLTree
      */
     T findMax() const
     {
-        if (root == nullptr) throw std::runtime_error("findMax: tree is empty");
+        if (root == nullptr)
+            throw std::runtime_error("findMax: tree is empty");
         return findMax(root)->getData();
     }
 
@@ -360,32 +400,29 @@ class AVLTree
 
     /**
      * Recorrido inorden: izquierdo → raíz → derecho.
-     * @param visit Función llamada con cada valor en orden ascendente.
      */
-    template <typename Visitor>
-    void inorder(Visitor visit) const
+    void inorder() const
     {
-        inorder(root, visit);
+        inorder(root);
+        std::cout << "\n";
     }
 
     /**
      * Recorrido preorden: raíz → izquierdo → derecho.
-     * @param visit Función llamada con cada valor.
      */
-    template <typename Visitor>
-    void preorder(Visitor visit) const
+    void preorder() const
     {
-        preorder(root, visit);
+        preorder(root);
+        std::cout << "\n";
     }
 
     /**
      * Recorrido postorden: izquierdo → derecho → raíz.
-     * @param visit Función llamada con cada valor.
      */
-    template <typename Visitor>
-    void postorder(Visitor visit) const
+    void postorder() const
     {
-        postorder(root, visit);
+        postorder(root);
+        std::cout << "\n";
     }
 
     /**

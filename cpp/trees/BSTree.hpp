@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <iostream>
 #include <limits>
 #include <stdexcept>
 
@@ -26,11 +27,11 @@ class BSTree
      * @param node Raíz del subárbol actual.
      * @param data  Valor a insertar.
      * @return El nodo raíz del subárbol después de la inserción.
-     * @note Complejidad: O(log n) promedio, O(n) peor caso.
      */
     NodeTree<T>* insert(NodeTree<T>* node, T data)
     {
-        if (node == nullptr) return new NodeTree<T>(data);
+        if (node == nullptr)
+            return new NodeTree<T>(data);
 
         if (data < node->getData())
             node->setLeftNode(insert(node->getLeftNode(), data));
@@ -47,8 +48,10 @@ class BSTree
      */
     NodeTree<T>* findMin(NodeTree<T>* node) const
     {
-        if (node == nullptr) return nullptr;
-        while (node->getLeftNode() != nullptr) node = node->getLeftNode();
+        if (node == nullptr)
+            return nullptr;
+        while (node->getLeftNode() != nullptr)
+            node = node->getLeftNode();
         return node;
     }
 
@@ -59,8 +62,10 @@ class BSTree
      */
     NodeTree<T>* findMax(NodeTree<T>* node) const
     {
-        if (node == nullptr) return nullptr;
-        while (node->getRightNode() != nullptr) node = node->getRightNode();
+        if (node == nullptr)
+            return nullptr;
+        while (node->getRightNode() != nullptr)
+            node = node->getRightNode();
         return node;
     }
 
@@ -70,18 +75,19 @@ class BSTree
      * @param node Raíz del subárbol actual.
      * @param data  Valor a eliminar.
      * @return El nodo raíz del subárbol después de la eliminación.
-     * @note Complejidad: O(log n) promedio, O(n) peor caso.
      */
     NodeTree<T>* remove(NodeTree<T>* node, T data)
     {
-        if (node == nullptr) return nullptr;
+        if (node == nullptr)
+            return nullptr;
 
         if (data < node->getData()) {
             node->setLeftNode(remove(node->getLeftNode(), data));
         } else if (data > node->getData()) {
             node->setRightNode(remove(node->getRightNode(), data));
         } else {
-            if (node->getLeftNode() == nullptr && node->getRightNode() == nullptr) {
+            if (node->getLeftNode() == nullptr &&
+                node->getRightNode() == nullptr) {
                 delete node;
                 return nullptr;
             }
@@ -100,7 +106,8 @@ class BSTree
 
             NodeTree<T>* pred = findMax(node->getLeftNode());
             node->setData(pred->getData());
-            node->setLeftNode(remove(node->getLeftNode(), pred->getData()));
+            node->setLeftNode(
+                remove(node->getLeftNode(), pred->getData()));
         }
 
         return node;
@@ -110,37 +117,37 @@ class BSTree
      * Recorrido inorden: izquierdo → raíz → derecho.
      * Genera los valores en orden ascendente para un BST.
      */
-    template <typename Visitor>
-    void inorder(NodeTree<T>* node, Visitor visit) const
+    void inorder(NodeTree<T>* node) const
     {
-        if (node == nullptr) return;
-        inorder(node->getLeftNode(), visit);
-        visit(node->getData());
-        inorder(node->getRightNode(), visit);
+        if (node == nullptr)
+            return;
+        inorder(node->getLeftNode());
+        std::cout << node->getData() << " ";
+        inorder(node->getRightNode());
     }
 
     /**
      * Recorrido preorden: raíz → izquierdo → derecho.
      */
-    template <typename Visitor>
-    void preorder(NodeTree<T>* node, Visitor visit) const
+    void preorder(NodeTree<T>* node) const
     {
-        if (node == nullptr) return;
-        visit(node->getData());
-        preorder(node->getLeftNode(), visit);
-        preorder(node->getRightNode(), visit);
+        if (node == nullptr)
+            return;
+        std::cout << node->getData() << " ";
+        preorder(node->getLeftNode());
+        preorder(node->getRightNode());
     }
 
     /**
      * Recorrido postorden: izquierdo → derecho → raíz.
      */
-    template <typename Visitor>
-    void postorder(NodeTree<T>* node, Visitor visit) const
+    void postorder(NodeTree<T>* node) const
     {
-        if (node == nullptr) return;
-        postorder(node->getLeftNode(), visit);
-        postorder(node->getRightNode(), visit);
-        visit(node->getData());
+        if (node == nullptr)
+            return;
+        postorder(node->getLeftNode());
+        postorder(node->getRightNode());
+        std::cout << node->getData() << " ";
     }
 
     /**
@@ -149,8 +156,10 @@ class BSTree
      */
     int height(NodeTree<T>* node) const
     {
-        if (node == nullptr) return 0;
-        return 1 + std::max(height(node->getLeftNode()), height(node->getRightNode()));
+        if (node == nullptr)
+            return 0;
+        return 1 + std::max(height(node->getLeftNode()),
+                            height(node->getRightNode()));
     }
 
     /**
@@ -158,8 +167,10 @@ class BSTree
      */
     int countNodes(NodeTree<T>* node) const
     {
-        if (node == nullptr) return 0;
-        return 1 + countNodes(node->getLeftNode()) + countNodes(node->getRightNode());
+        if (node == nullptr)
+            return 0;
+        return 1 + countNodes(node->getLeftNode()) +
+               countNodes(node->getRightNode());
     }
 
     /**
@@ -167,9 +178,13 @@ class BSTree
      */
     int countLeaves(NodeTree<T>* node) const
     {
-        if (node == nullptr) return 0;
-        if (node->getLeftNode() == nullptr && node->getRightNode() == nullptr) return 1;
-        return countLeaves(node->getLeftNode()) + countLeaves(node->getRightNode());
+        if (node == nullptr)
+            return 0;
+        if (node->getLeftNode() == nullptr &&
+            node->getRightNode() == nullptr)
+            return 1;
+        return countLeaves(node->getLeftNode()) +
+               countLeaves(node->getRightNode());
     }
 
     /**
@@ -180,18 +195,18 @@ class BSTree
      */
     bool isValidBST(NodeTree<T>* node, T min, T max) const
     {
-        if (node == nullptr) return true;
-        if (node->getData() <= min || node->getData() >= max) return false;
+        if (node == nullptr)
+            return true;
+        if (node->getData() <= min || node->getData() >= max)
+            return false;
         return isValidBST(node->getLeftNode(), min, node->getData()) &&
                isValidBST(node->getRightNode(), node->getData(), max);
     }
 
-    /**
-     * Elimina todos los nodos del subárbol (libera memoria).
-     */
     void destroy(NodeTree<T>* node)
     {
-        if (node == nullptr) return;
+        if (node == nullptr)
+            return;
         destroy(node->getLeftNode());
         destroy(node->getRightNode());
         delete node;
@@ -204,7 +219,8 @@ class BSTree
      */
     NodeTree<T>* copy(NodeTree<T>* node) const
     {
-        if (node == nullptr) return nullptr;
+        if (node == nullptr)
+            return nullptr;
         NodeTree<T>* newNode = new NodeTree<T>(node->getData());
         newNode->setLeftNode(copy(node->getLeftNode()));
         newNode->setRightNode(copy(node->getRightNode()));
@@ -224,6 +240,15 @@ class BSTree
      * @param data Valor a insertar.
      * @note Si el valor ya existe, no hace nada.
      */
+    BSTree& operator=(const BSTree& other)
+    {
+        if (this != &other) {
+            destroy(root);
+            root = copy(other.root);
+        }
+        return *this;
+    }
+
     void insert(T data) { root = insert(root, data); }
 
     /**
@@ -242,7 +267,8 @@ class BSTree
     {
         NodeTree<T>* current = root;
         while (current != nullptr) {
-            if (data == current->getData()) return true;
+            if (data == current->getData())
+                return true;
             if (data < current->getData())
                 current = current->getLeftNode();
             else
@@ -258,7 +284,8 @@ class BSTree
      */
     T findMin() const
     {
-        if (root == nullptr) throw std::runtime_error("findMin: tree is empty");
+        if (root == nullptr)
+            throw std::runtime_error("findMin: tree is empty");
         return findMin(root)->getData();
     }
 
@@ -269,7 +296,8 @@ class BSTree
      */
     T findMax() const
     {
-        if (root == nullptr) throw std::runtime_error("findMax: tree is empty");
+        if (root == nullptr)
+            throw std::runtime_error("findMax: tree is empty");
         return findMax(root)->getData();
     }
 
@@ -295,7 +323,9 @@ class BSTree
      */
     bool isValidBST() const
     {
-        return isValidBST(root, std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
+        return isValidBST(root,
+                          std::numeric_limits<T>::min(),
+                          std::numeric_limits<T>::max());
     }
 
     /**
@@ -303,30 +333,28 @@ class BSTree
      * @param visit Función llamada con cada valor en orden.
      * @note En un BST genera los valores ordenados ascendentemente.
      */
-    template <typename Visitor>
-    void inorder(Visitor visit) const
+    void inorder() const
     {
-        inorder(root, visit);
+        inorder(root);
+        std::cout << "\n";
     }
 
     /**
      * Recorrido preorden: raíz → izquierdo → derecho.
-     * @param visit Función llamada con cada valor.
      */
-    template <typename Visitor>
-    void preorder(Visitor visit) const
+    void preorder() const
     {
-        preorder(root, visit);
+        preorder(root);
+        std::cout << "\n";
     }
 
     /**
      * Recorrido postorden: izquierdo → derecho → raíz.
-     * @param visit Función llamada con cada valor.
      */
-    template <typename Visitor>
-    void postorder(Visitor visit) const
+    void postorder() const
     {
-        postorder(root, visit);
+        postorder(root);
+        std::cout << "\n";
     }
 
     /**
@@ -353,7 +381,8 @@ class BSTree
             }
         }
 
-        if (succ != nullptr) return succ->getData();
+        if (succ != nullptr)
+            return succ->getData();
         throw std::runtime_error("successor: no successor found");
     }
 
@@ -381,11 +410,11 @@ class BSTree
             }
         }
 
-        if (pred != nullptr) return pred->getData();
+        if (pred != nullptr)
+            return pred->getData();
         throw std::runtime_error("predecessor: no predecessor found");
     }
 
-    /** Retorna puntero a la raíz del árbol. */
     NodeTree<T>* getRoot() const { return root; }
 
     /**
