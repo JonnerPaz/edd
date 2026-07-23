@@ -1,4 +1,4 @@
-use rust::lists::node::Node;
+use rust::{algo::merge_sort::merge_sort, lists::node::Node};
 use std::fmt::Debug;
 
 fn traversing_list<T>(head: &Option<Box<Node<T>>>)
@@ -146,4 +146,8 @@ fn main() {
 
     delete_node(&mut list, 1);
     traversing_list(&list); // 0, 2
+
+    let mut unsorted_vec = vec![4, 3, 2, 1];
+    let sorted_vec = merge_sort(&mut unsorted_vec);
+    println!("Sorted vector: {:?}\n", sorted_vec);
 } // in rust, after main func, list goes out of scope so it becomes None
